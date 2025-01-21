@@ -4,21 +4,32 @@ import Article from "../components/Article";
 import Layout from "../components/Layout";
 import axios, { AxiosError } from "axios";
 import DisplayError from "../components/DisplayError";
+import Loader from "../components/Loader";
 
 function Articles() {
 	const [articles, setArticles] = React.useState<ArticleProps[]>([]);
 	const [error, setError] = React.useState<AxiosError | null>(null);
+	const [loading, setLoading] = React.useState<boolean>(true);
+
+	const fetchArticles = async () => {
+		try {
+			const response = await axios.get(import.meta.env.VITE_ARTICLE_URL);
+			setArticles(response.data);
+		} catch (err) {
+			setError(err as AxiosError);
+		}
+		setLoading(false);
+	};
 
 	React.useEffect(() => {
-		axios
-			.get(import.meta.env.VITE_ARTICLE_URL)
-			.then((res) => setArticles(res.data))
-			.catch((err: AxiosError) => setError(err));
+		fetchArticles();
 	}, []);
 
 	return (
 		<Layout>
-			{error ? (
+			{loading ? (
+				<Loader />
+			) : error ? (
 				<DisplayError message="Error fetching data, please try again" />
 			) : (
 				<>
