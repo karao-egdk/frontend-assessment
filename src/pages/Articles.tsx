@@ -19,13 +19,13 @@ function Articles() {
 	return (
 		<Layout>
 			{error ? (
-				<DisplayError message="Error fetching data, please try again"/>
+				<DisplayError message="Error fetching data, please try again" />
 			) : (
 				<>
 					<h1 className="my-4 text-3xl font-bold text-gray-700">
 						Articles
 					</h1>
-					<div className="grid gap-4 md:grid-cols-2 mx-auto content-center">
+					<div className="grid gap-4 md:grid-cols-2 mx-auto place-items-center">
 						{articles.map((article) => {
 							return (
 								<Article article={article} key={article.id} />
